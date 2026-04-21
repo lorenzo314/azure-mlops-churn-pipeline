@@ -1,0 +1,43 @@
+# =========================
+#
+# Dependencies
+# 
+# Dependencies are organized by function (training, deployment, monitoring) for clarity.
+#
+# =========================
+
+# =========================
+# Azure ML / Cloud
+# =========================
+azure-ai-ml
+azure-identity
+azureml-mlflow
+
+# =========================
+# Experiment Tracking
+# =========================
+mlflow==2.14.3
+
+# =========================
+# Data Processing & ML
+# =========================
+pandas
+numpy<2.0
+scikit-learn
+lightgbm
+joblib
+
+# =========================
+# Hyperparameter Tuning
+# =========================
+optuna
+
+# =========================
+# Data Validation
+# =========================
+great_expectations==0.18.21
+
+# =========================
+# Monitoring
+# =========================
+evidently==0.4.18

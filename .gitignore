@@ -1,0 +1,59 @@
+# ==========================
+# Environment variables
+# ==========================
+.env
+.env.local
+.env.dev
+.env.prod
+
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ==========================
+# Virtual Environments
+# ==========================
+venv/
+.venv/
+env/
+
+# ==========================
+# Data (keep structure only)
+# ==========================
+data/*
+!data/raw/.gitkeep
+!data/production/.gitkeep
+
+# ==========================
+# Artifacts / Outputs
+# ==========================
+artifacts/
+reports/
+*.html
+
+# ==========================
+# Notebooks
+# ==========================
+.ipynb_checkpoints/
+
+# ==========================
+# Logs
+# ==========================
+*.log
+
+# ==========================
+# OS / Editor
+# ==========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ==========================
+# Azure ML (optional safety)
+# ==========================
+azureml/
