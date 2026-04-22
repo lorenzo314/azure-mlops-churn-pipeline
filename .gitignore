@@ -57,3 +57,10 @@ Thumbs.db
 # Azure ML (optional safety)
 # ==========================
 azureml/
+
+# ==========================
+# Coverage
+# ==========================
+.coverage
+coverage.xml
+htmlcov/

@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import argparse
 import logging
-import pandas as pd
 from pathlib import Path
 
-from evidently.report import Report
+import pandas as pd
 from evidently.metric_preset import DataDriftPreset
+from evidently.report import Report
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -66,7 +66,13 @@ data/
 ├── raw/
 ├── production/
 
+tests/
+├── test_generate_data.py
+├── test_data_validation.py
+pyproject.toml
+
 conda.yaml
+pyproject.toml
 requirements.txt
 ```
 
@@ -191,6 +197,26 @@ Example response:
 python src/monitor_drift.py \
   --reference_path data/raw/churn_train_clean.csv \
   --current_path data/production/churn_prod_drifted.csv
+```
+
+---
+
+## 🧹 Code Quality
+  
+This project uses Ruff for linting:  
+
+```bash
+ruff check .
+```
+
+---
+
+## 🧪 Testing
+  
+Run unit tests with:
+  
+```bash
+pytest
 ```
 
 ---

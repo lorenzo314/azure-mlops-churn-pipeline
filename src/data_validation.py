@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import argparse
 import logging
-import pandas as pd
+
 import great_expectations as gx
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import argparse
+
 import mlflow
 import optuna
 
 from azure_mlflow_utils import configure_mlflow
-from train import load_and_prepare_data, build_pipeline, evaluate_model
-
+from train import build_pipeline, evaluate_model, load_and_prepare_data
 
 N_TRIALS_DEFAULT = 20
 EXPERIMENT_NAME = "churn_mlops"

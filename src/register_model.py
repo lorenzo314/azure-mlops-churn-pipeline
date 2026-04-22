@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+
 import mlflow
 
 from azure_mlflow_utils import configure_mlflow

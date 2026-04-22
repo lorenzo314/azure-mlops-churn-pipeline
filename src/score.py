@@ -1,8 +1,9 @@
 import json
-import os
 import logging
-import pandas as pd
+import os
+
 import mlflow.pyfunc
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 

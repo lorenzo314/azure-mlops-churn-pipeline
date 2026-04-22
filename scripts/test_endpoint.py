@@ -1,6 +1,7 @@
-import requests
 import json
 import os
+
+import requests
 
 ENDPOINT_URL = os.getenv("ENDPOINT_URL")
 API_KEY = os.getenv("AZUREML_API_KEY")

@@ -3,17 +3,17 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+
 import mlflow
 import mlflow.sklearn
 import pandas as pd
-
 from lightgbm import LGBMClassifier
+from mlflow.models import infer_signature
 from sklearn.compose import ColumnTransformer
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_auc_score
-from mlflow.models import infer_signature
 
 from azure_mlflow_utils import configure_mlflow
 
