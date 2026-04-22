@@ -34,4 +34,3 @@ if __name__ == "__main__":
     model = mlflow.register_model(model_uri, args.model_name)
 
     logger.info(f"Registered model: {model.name} v{model.version}")
-

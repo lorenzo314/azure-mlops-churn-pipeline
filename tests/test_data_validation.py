@@ -11,4 +11,3 @@ def test_no_missing_values():
     )
 
     assert not df.isnull().values.any()
-

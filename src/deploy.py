@@ -86,4 +86,3 @@ if __name__ == "__main__":
         model_version=args.model_version,
         instance_type=args.instance_type,
     )
-

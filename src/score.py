@@ -43,4 +43,3 @@ def run(raw_data):
     except Exception as e:
         logger.error(str(e))
         return {"error": str(e)}
-

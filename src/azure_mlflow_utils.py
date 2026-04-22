@@ -32,4 +32,3 @@ def configure_mlflow(
     logger.info("MLflow tracking URI set to Azure ML workspace")
 
     return ml_client
-

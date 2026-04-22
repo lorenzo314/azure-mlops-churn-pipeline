@@ -54,9 +54,7 @@ def load_and_prepare_data(path: str):
     X = df.drop(columns=["customer_id", "churn"])
     y = df["churn"]
 
-    return train_test_split(
-        X, y, test_size=0.2, stratify=y, random_state=42
-    )
+    return train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 
 def build_pipeline(params=None):
@@ -114,7 +112,6 @@ if __name__ == "__main__":
             params = json.load(f)
 
     with mlflow.start_run() as run:
-
         model = build_pipeline(params)
         model.fit(X_train, y_train)
 
@@ -137,4 +134,3 @@ if __name__ == "__main__":
 
         logger.info(f"AUC: {auc:.4f}")
         logger.info(f"Run ID: {run.info.run_id}")
-

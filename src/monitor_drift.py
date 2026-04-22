@@ -41,4 +41,3 @@ if __name__ == "__main__":
         args.current_path,
         args.output_path,
     )
-

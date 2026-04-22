@@ -49,4 +49,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     validate_data(args.input_path)
-

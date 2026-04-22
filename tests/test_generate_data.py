@@ -25,4 +25,3 @@ def test_generate_data_columns():
     }
 
     assert expected_columns.issubset(set(df.columns))
-

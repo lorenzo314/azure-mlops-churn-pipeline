@@ -70,7 +70,6 @@ if __name__ == "__main__":
     mlflow.set_experiment(EXPERIMENT_NAME)
 
     with mlflow.start_run(run_name="optuna_study"):
-
         study = optuna.create_study(direction="maximize")
 
         study.optimize(
