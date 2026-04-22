@@ -45,7 +45,14 @@ def validate_data(input_path: str) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_path", required=True)
-
+    parser.add_argument("--output_path", required=True)
     args = parser.parse_args()
 
+    df = pd.read_csv(args.input_path)
+
     validate_data(args.input_path)
+
+    # if validation passes:
+    df.to_csv(args.output_path, index=False)
+
+    print("Validation successful")
