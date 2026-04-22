@@ -11,4 +11,5 @@ dependencies:
       - numpy<2.0
       - pydantic<2
       - azureml-inference-server-http
+      - azure-ai-ml
       - great_expectations==0.18.21
