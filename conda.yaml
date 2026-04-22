@@ -5,8 +5,6 @@ dependencies:
   - python=3.10
   - pip
   - pip:
-      - setuptools==68.2.2
-      - wheel
       - mlflow==2.14.3
       - pandas
       - scikit-learn
@@ -15,3 +13,4 @@ dependencies:
       - numpy<2.0
       - pydantic<2
       - azureml-inference-server-http
+      - great_expectations==0.18.21
