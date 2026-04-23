@@ -99,8 +99,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    mlflow.set_tracking_uri("azureml://mlflow")
-    mlflow.set_registry_uri("file:///tmp/mlruns")
+    import mlflow
 
     mlflow.set_experiment(EXPERIMENT_NAME)
 
