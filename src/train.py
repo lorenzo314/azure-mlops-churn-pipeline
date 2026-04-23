@@ -19,8 +19,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
-from azure_mlflow_utils import configure_mlflow
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -101,13 +99,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    configure_mlflow(
-        args.subscription_id,
-        args.resource_group,
-        args.workspace_name,
-    )
-
-    mlflow.set_tracking_uri(mlflow.get_tracking_uri())
+    mlflow.set_tracking_uri("azureml://mlflow")
     mlflow.set_registry_uri("file:///tmp/mlruns")
 
     mlflow.set_experiment(EXPERIMENT_NAME)
