@@ -107,6 +107,8 @@ if __name__ == "__main__":
         args.workspace_name,
     )
 
+    mlflow.set_registry_uri(None)
+
     mlflow.set_experiment(EXPERIMENT_NAME)
 
     X_train, X_test, y_train, y_test = load_and_prepare_data(args.input_path)
