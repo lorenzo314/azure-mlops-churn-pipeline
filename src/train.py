@@ -107,7 +107,8 @@ if __name__ == "__main__":
         args.workspace_name,
     )
 
-    mlflow.set_registry_uri(None)
+    mlflow.set_tracking_uri(mlflow.get_tracking_uri())
+    mlflow.set_registry_uri("file:///tmp/mlruns")
 
     mlflow.set_experiment(EXPERIMENT_NAME)
 
