@@ -1,21 +1,34 @@
-from __future__ import annotations
-
 import argparse
-import logging
 
-import mlflow
+from azure.ai.ml import MLClient
+from azure.ai.ml.entities import Model
+from azure.identity import DefaultAzureCredential
 
-from azure_mlflow_utils import configure_mlflow
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+def main(args):
+    ml_client = MLClient(
+        DefaultAzureCredential(),
+        args.subscription_id,
+        args.resource_group,
+        args.workspace_name,
+    )
+
+    model = Model(
+        path=args.model_path,
+        name=args.model_name,
+        type="custom_model",
+    )
+
+    ml_client.models.create_or_update(model)
+
+    print(f"Model {args.model_name} registered successfully")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--run_id", required=True)
-    parser.add_argument("--model_name", default="churn_model")
+    parser.add_argument("--model_path", required=True)
+    parser.add_argument("--model_name", required=True)
 
     parser.add_argument("--subscription_id", required=True)
     parser.add_argument("--resource_group", required=True)
@@ -23,14 +36,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    configure_mlflow(
-        args.subscription_id,
-        args.resource_group,
-        args.workspace_name,
-    )
-
-    model_uri = f"runs:/{args.run_id}/model"
-
-    model = mlflow.register_model(model_uri, args.model_name)
-
-    logger.info(f"Registered model: {model.name} v{model.version}")
+    main(args)
