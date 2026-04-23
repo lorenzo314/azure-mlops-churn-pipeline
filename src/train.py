@@ -135,6 +135,7 @@ if __name__ == "__main__":
             artifact_path="model",
             signature=signature,
             input_example=X_train.head(5),
+            registered_model_name=None,
         )
 
         logger.info(f"AUC: {auc:.4f}")
