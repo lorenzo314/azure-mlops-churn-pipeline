@@ -4,6 +4,10 @@ import argparse
 import json
 import logging
 
+# save model
+import os
+
+import joblib
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -89,6 +93,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--input_path", required=True)
     parser.add_argument("--params_json", default=None)
+    parser.add_argument("--model_output", required=True)
 
     parser.add_argument("--subscription_id", required=True)
     parser.add_argument("--resource_group", required=True)
@@ -134,3 +139,9 @@ if __name__ == "__main__":
 
         logger.info(f"AUC: {auc:.4f}")
         logger.info(f"Run ID: {run.info.run_id}")
+
+        os.makedirs(args.model_output, exist_ok=True)
+        joblib.dump(model, os.path.join(args.model_output, "model.joblib"))
+        logger.info(f"Model saved to {args.model_output}")
+
+        print("Model saved successfully")
