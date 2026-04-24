@@ -114,11 +114,13 @@ cp .env.example .env
 
 Example variables:  
 
+```bash
 SUBSCRIPTION_ID=your-subscription-id  
 RESOURCE_GROUP=your-resource-group  
 WORKSPACE_NAME=your-workspace  
 ENDPOINT_URL=your-endpoint-url  
 AZUREML_API_KEY=your-api-key  
+```
 
 These are used for authentication and endpoint access.  
 
