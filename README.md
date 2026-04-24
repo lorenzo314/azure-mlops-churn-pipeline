@@ -11,15 +11,55 @@ End-to-end **MLOps pipeline** for churn prediction using **Azure Machine Learnin
 
 ## 📌 Overview
 
-This project demonstrates a **production-grade machine learning workflow**:
+This project demonstrates a **production-ready MLOps system** built on Azure Machine Learning, covering the full lifecycle:
 
-* Data validation
-* Model training & hyperparameter tuning
-* MLflow experiment tracking
-* Model registration
-* Deployment to Azure ML managed endpoints
-* Real-time inference via REST API
-* Data drift monitoring
+- Data validation and quality checks
+- Model training and experiment tracking (MLflow)
+- Automated pipeline orchestration (Azure ML pipelines)
+- Model registration and deployment
+- Real-time inference via REST API
+- Monitoring and data drift detection
+
+The project emphasizes reproducibility, modular design, and separation between training, orchestration, and deployment.
+
+---
+
+## 🔄 Azure ML Pipeline
+
+This project includes a fully orchestrated **Azure ML pipeline** that automates the end-to-end workflow:
+
+### Pipeline Steps
+
+1. **Data Validation**
+   - Validates input data using Great Expectations
+   - Outputs a validated dataset
+
+2. **Training**
+   - Trains a LightGBM model
+   - Logs metrics and artifacts with MLflow
+   - Saves model as pipeline artifact
+
+3. **Model Registration**
+   - Registers the trained model in Azure ML Model Registry
+
+---
+
+### ▶️ Run the pipeline
+
+```bash
+python src/pipeline.py \
+  --subscription_id <your-subscription-id> \
+  --resource_group <your-resource-group> \
+  --workspace_name <your-workspace>
+```
+
+### 🔁 Pipeline Flow
+raw data → validation → training → model artifact → registration
+
+
+*Azure ML pipeline execution showing validation, training, and model registration steps.*
+
+![Pipeline](docs/pipeline.png)
 
 ---
 
@@ -28,7 +68,21 @@ This project demonstrates a **production-grade machine learning workflow**:
 High-level overview of the end-to-end MLOps pipeline.
 
 ```text
-Data → Validation → Training → MLflow → Registry → Deployment → Endpoint → Monitoring
+Raw Data
+   ↓
+Validation (Great Expectations)
+   ↓
+Training (LightGBM + MLflow)
+   ↓
+Model Artifact
+   ↓
+Azure ML Registry
+   ↓
+Deployment (Managed Endpoint)
+   ↓
+Inference API
+   ↓
+Monitoring (Evidently)
 ```
 
 ---
@@ -51,7 +105,7 @@ src/
 ├── data/
 │   └── generate_data.py
 ├── azure_mlflow_utils.py   # Azure ML + MLflow integration utilities
-├── data_validation.py # data quality checks using Great Expectation
+├── data_validation.py      # Data validation using Great Expectations
 ├── train.py
 ├── hpo.py
 ├── register_model.py
@@ -69,7 +123,6 @@ data/
 tests/
 ├── test_generate_data.py
 ├── test_data_validation.py
-pyproject.toml
 
 conda.yaml
 pyproject.toml
@@ -218,6 +271,17 @@ Run unit tests with:
 ```bash
 pytest
 ```
+
+---
+
+## Environment
+
+The project uses a conda environment compatible with Azure ML pipelines.  
+
+It includes:
+- `mlflow` for experiment tracking  
+- `azureml-mlflow` for Azure ML integration  
+- `azure-ai-ml` for pipeline orchestration and model registry  
 
 ---
 
