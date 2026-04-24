@@ -99,10 +99,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    import mlflow
-
-    mlflow.set_experiment(EXPERIMENT_NAME)
-
     X_train, X_test, y_train, y_test = load_and_prepare_data(args.input_path)
 
     params = None
@@ -110,33 +106,34 @@ if __name__ == "__main__":
         with open(args.params_json) as f:
             params = json.load(f)
 
-    with mlflow.start_run() as run:
-        model = build_pipeline(params)
-        model.fit(X_train, y_train)
+    model = build_pipeline(params)
+    model.fit(X_train, y_train)
 
-        auc = evaluate_model(model, X_test, y_test)
+    auc = evaluate_model(model, X_test, y_test)
 
-        mlflow.log_params(params or DEFAULT_PARAMS)
-        mlflow.log_metric("roc_auc", auc)
+    mlflow.log_params(params or DEFAULT_PARAMS)
+    mlflow.log_metric("roc_auc", auc)
 
-        signature = infer_signature(
-            X_train,
-            model.predict_proba(X_train)[:, 1],
-        )
+    signature = infer_signature(
+        X_train,
+        model.predict_proba(X_train)[:, 1],
+    )
 
-        mlflow.sklearn.log_model(
-            model,
-            artifact_path="model",
-            signature=signature,
-            input_example=X_train.head(5),
-            registered_model_name=None,
-        )
+    mlflow.sklearn.log_model(
+        model,
+        artifact_path="model",
+        signature=signature,
+        input_example=X_train.head(5),
+        registered_model_name=None,
+    )
 
-        logger.info(f"AUC: {auc:.4f}")
-        logger.info(f"Run ID: {run.info.run_id}")
+    run = mlflow.active_run()
 
-        os.makedirs(args.model_output, exist_ok=True)
-        joblib.dump(model, os.path.join(args.model_output, "model.joblib"))
-        logger.info(f"Model saved to {args.model_output}")
+    logger.info(f"AUC: {auc:.4f}")
+    logger.info(f"Run ID: {run.info.run_id}")
 
-        print("Model saved successfully")
+    os.makedirs(args.model_output, exist_ok=True)
+    joblib.dump(model, os.path.join(args.model_output, "model.joblib"))
+    logger.info(f"Model saved to {args.model_output}")
+
+    print("Model saved successfully")
