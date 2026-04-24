@@ -2,7 +2,7 @@ import json
 import logging
 import os
 
-import mlflow.pyfunc
+import joblib
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -18,11 +18,19 @@ def init():
 
         print(f"MODEL DIR: {model_dir}")
 
-        model_path = os.path.join(model_dir, "model")
+        # Find model dynamically (robust)
+        model_path = None
+        for root, _, files in os.walk(model_dir):
+            for file in files:
+                if file.endswith(".joblib"):
+                    model_path = os.path.join(root, file)
+
+        if model_path is None:
+            raise ValueError("No model.joblib found")
 
         print(f"LOADING MODEL FROM: {model_path}")
 
-        model = mlflow.pyfunc.load_model(model_path)
+        model = joblib.load(model_path)
 
         print("MODEL LOADED SUCCESSFULLY")
 

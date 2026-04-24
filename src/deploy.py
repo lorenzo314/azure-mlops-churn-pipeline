@@ -7,6 +7,8 @@ from azure.ai.ml.entities import (
 )
 from azure.identity import DefaultAzureCredential
 
+default_instance = "Standard_DS1_v2"
+
 
 def deploy_model(
     subscription_id,
@@ -15,7 +17,7 @@ def deploy_model(
     endpoint_name,
     model_name,
     model_version,
-    instance_type="Standard_DS1_v2",
+    instance_type=default_instance,
 ):
     credential = DefaultAzureCredential()
 
@@ -68,12 +70,12 @@ if __name__ == "__main__":
     parser.add_argument("--resource_group", required=True)
     parser.add_argument("--workspace_name", required=True)
 
-    parser.add_argument("--endpoint_name", required=True)
+    parser.add_argument("--endpoint_name", default="churn-endpoint")
+    parser.add_argument("--model_name", default="churn-model")
+    parser.add_argument("--model_version", type=int, default=1)
+    parser.add_argument("--compute", default="cpu-cluster")
 
-    parser.add_argument("--model_name", required=True)
-    parser.add_argument("--model_version", required=True)
-
-    parser.add_argument("--instance_type", default="Standard_DS1_v2")
+    parser.add_argument("--instance_type", default=default_instance)
 
     args = parser.parse_args()
 
