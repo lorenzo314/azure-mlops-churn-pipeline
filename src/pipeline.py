@@ -49,7 +49,7 @@ def build_pipeline(env, args):
             }
         },
         environment=env,
-        compute="cpu-cluster",
+        compute=args.compute,
     )
 
     # -------------------------
@@ -77,7 +77,7 @@ def build_pipeline(env, args):
             "model": {"type": "uri_folder"},
         },
         environment=env,
-        compute="cpu-cluster",
+        compute=args.compute,
     )
 
     # -------------------------
@@ -103,7 +103,7 @@ def build_pipeline(env, args):
             "workspace_name": {"type": "string"},
         },
         environment=env,
-        compute="cpu-cluster",
+        compute=args.compute,
     )
 
     # -------------------------
@@ -111,8 +111,7 @@ def build_pipeline(env, args):
     # -------------------------
     @pipeline()
     def churn_pipeline(subscription_id, resource_group, workspace_name):
-
-        validation_step = data_validation(input_data="data/raw/churn_train.csv")
+        validation_step = data_validation(input_data=args.input_data)
 
         training_step = training(
             input_data=validation_step.outputs.validated_data,
@@ -123,7 +122,7 @@ def build_pipeline(env, args):
 
         register(
             model_path=training_step.outputs.model,
-            model_name="churn-model",
+            model_name=args.model_name,
             subscription_id=subscription_id,
             resource_group=resource_group,
             workspace_name=workspace_name,
@@ -149,7 +148,7 @@ def main(args):
 
     pipeline_job = build_pipeline(env, args)
 
-    pipeline_job.settings.default_compute = "cpu-cluster"
+    pipeline_job.settings.default_compute = args.compute
 
     ml_client.jobs.create_or_update(pipeline_job)
 
@@ -162,6 +161,10 @@ if __name__ == "__main__":
     parser.add_argument("--subscription_id", required=True)
     parser.add_argument("--resource_group", required=True)
     parser.add_argument("--workspace_name", required=True)
+
+    parser.add_argument("--compute", default="cpu-cluster")
+    parser.add_argument("--input_data", default="data/raw/churn_train.csv")
+    parser.add_argument("--model_name", default="churn-model")
 
     args = parser.parse_args()
 
