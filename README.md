@@ -14,7 +14,7 @@ End-to-end **MLOps pipeline** for churn prediction using **Azure Machine Learnin
 This project demonstrates a **production-ready MLOps system** built on Azure Machine Learning, covering the full lifecycle:
 
 - Data validation and quality checks
-- Model training and experiment tracking (MLflow)
+- Model training, hyperparameter tuning (Optuna), and experiment tracking (MLflow)
 - Automated pipeline orchestration (Azure ML pipelines)
 - Model registration and deployment
 - Real-time inference via REST API
@@ -36,6 +36,7 @@ This project includes a fully orchestrated **Azure ML pipeline** that automates 
 
 2. **Training**
    - Trains a LightGBM model
+   - Performs hyperparameter tuning (Optuna)
    - Logs metrics and artifacts with MLflow
    - Saves model as pipeline artifact
 
@@ -87,14 +88,107 @@ Monitoring (Evidently)
 
 ---
 
+## Tech Stack
+
 ## ⚙️ Tech Stack
 
 * Python 3.10
 * Azure Machine Learning (SDK v2)
 * MLflow
 * LightGBM
+* Optuna (hyperparameter tuning)
 * Pandas / NumPy
 * Evidently (monitoring)
+
+---
+
+## Setup & Configuration
+
+### Environment variables
+
+Create a `.env` file based on:
+
+```bash
+cp .env.example .env
+```
+
+Example variables:  
+
+SUBSCRIPTION_ID=your-subscription-id  
+RESOURCE_GROUP=your-resource-group  
+WORKSPACE_NAME=your-workspace  
+ENDPOINT_URL=your-endpoint-url  
+AZUREML_API_KEY=your-api-key  
+
+These are used for authentication and endpoint access.  
+
+---
+
+## 🔧  Usage (Commands)
+
+### Run the pipeline
+
+```bash
+python src/pipeline.py \
+  --subscription_id $SUBSCRIPTION_ID \
+  --resource_group $RESOURCE_GROUP \
+  --workspace_name $WORKSPACE_NAME \
+  --compute cpu-cluster \
+  --model_name churn-model
+```
+
+### Deploy the model  
+
+```
+python src/deploy.py \
+  --subscription_id $SUBSCRIPTION_ID \
+  --resource_group $RESOURCE_GROUP \
+  --workspace_name $WORKSPACE_NAME \
+  --endpoint_name churn-endpoint \
+  --model_name churn_model \
+  --model_version 1
+```
+
+The model is stored as a joblib artifact and dynamically loaded from the Azure ML model directory at runtime.
+
+### Test the endpoint  
+
+```
+python scripts/test_endpoint.py
+```
+
+Example response:
+
+```json
+{"predictions": [1]}
+```
+
+## 🔥  Azure CLI Command
+
+### List endpoints
+```bash
+az ml online-endpoint list
+```
+
+###  Show endpoint details
+```bash
+az ml online-endpoint show --name churn-endpoint
+```
+
+### Get endpoint credentials
+```bash
+az ml online-endpoint get-credentials --name churn-endpoint
+```
+
+### Delete endpoint
+```bash
+az ml online-endpoint delete --name churn-endpoint --yes
+```
+
+### List jobs
+```bash
+az ml job list
+```
 
 ---
 
@@ -189,58 +283,6 @@ Validation successful: dataset passed all checks
 ```
 
 If validation fails, the pipeline stops before training.
-
----
-
-## 🏋️ Training
-
-```bash
-python src/train.py
-```
-
----
-
-## 🔍 Hyperparameter Tuning
-
-```bash
-python src/hpo.py
-```
-
----
-
-## 📦 Register Model
-
-```bash
-python src/register_model.py
-```
-
----
-
-## 🚀 Deploy Model
-
-```bash
-python src/deploy.py \
-  --subscription_id $SUBSCRIPTION_ID \
-  --resource_group $RESOURCE_GROUP \
-  --workspace_name $WORKSPACE_NAME \
-  --endpoint_name churn-endpoint \
-  --model_name churn_model \
-  --model_version 4
-```
-
----
-
-## 🔌 Test Endpoint
-
-```bash
-python scripts/test_endpoint.py
-```
-
-Example response:
-
-```json
-{"predictions": [1]}
-```
 
 ---
 
